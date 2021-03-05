@@ -35,7 +35,7 @@ class CharacterContainer extends HTMLElement {
         this.renderCharacters(this.characters);
         window.scroll(0, window.innerHeight);
       }
-      else Promise.reject();
+      else throw new Error ('Invalid id. Cannot fetch more.');
     } catch (e) {
       console.log(e);
     }
