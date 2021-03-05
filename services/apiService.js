@@ -1,14 +1,19 @@
 const BASE_URL = 'https://rickandmortyapi.com/graphql';
 
-export async function fetchCharacters () {
-  try {
+function rangeGenerator (start = 1) {
+  return Array.from({length:10}, (_,i) => start + i);
+}
+
+export async function fetchCharacters (startId) {
+  const idRange = rangeGenerator(startId);
+  try { 
     const response = await fetch(BASE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query: `
         query {
-          charactersByIds(ids:[1,2,3]) {
+          charactersByIds(ids:${JSON.stringify(idRange)}) {
             id
             name
           }

@@ -8,12 +8,12 @@ class CharacterContainer extends HTMLElement {
   }
 
   async connectedCallback () {
-    const characters = await this.getCharacters();
+    const characters = await this.getCharacters(1);
     this.renderCharacters(characters);
   }
 
-  getCharacters () {
-    return fetchCharacters();
+  getCharacters (startId) {
+    return fetchCharacters(startId);
   }
 
   
