@@ -8,7 +8,7 @@ export async function fetchCharacters () {
       body: JSON.stringify({
         query: `
         query {
-          charactersByIds(ids:[1]) {
+          charactersByIds(ids:[1,2,3]) {
             id
             name
           }
@@ -18,8 +18,8 @@ export async function fetchCharacters () {
   
     if (response.status < 400) {
       const data = await response.json();
-      console.log(data);
-      return data;
+      console.log(data.data.charactersByIds);
+      return data.data.charactersByIds;
     } else {
       Promise.reject(response);
     }
