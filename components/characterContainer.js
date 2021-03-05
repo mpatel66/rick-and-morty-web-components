@@ -7,18 +7,42 @@ class CharacterContainer extends HTMLElement {
     this.attachShadow({mode: 'open'});
   }
 
+  static getObservedAttributes () { return ['characters']; }
+
   async connectedCallback () {
-    const characters = await this.getCharacters(1);
-    this.renderCharacters(characters);
+    console.log('connected');
+    this.characters = await this.getCharacters(1);
+    this.renderCharacters(this.characters);
+
+    const loadMoreButton = document.getElementById('loadMoreButton');
+    loadMoreButton.addEventListener('click', async () => await this.getNextCharacters());
+
   }
 
-  getCharacters (startId) {
-    return fetchCharacters(startId);
+  async getCharacters (startId) {
+    try {
+      return await fetchCharacters(startId);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  
+  async getNextCharacters () {
+    try {
+      const startId = parseInt(this.characters[this.characters.length -1].id);
+      if (startId) {
+        this.characters = await this.getCharacters(startId + 1);
+        this.renderCharacters(this.characters);
+        window.scroll(0, window.innerHeight);
+      }
+      else Promise.reject();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   renderCharacters (characters) {
-    this.shadowRoot.innerHTML = `
+    this.shadowRoot.innerHTML += `
       ${characters.map(char => `<character-card name="${char.name}"></character-card>`).join(' ')}
     `;
   }

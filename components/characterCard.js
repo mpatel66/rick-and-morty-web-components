@@ -8,8 +8,6 @@ export class CharacterCard extends HTMLElement {
 
     shadow.appendChild(name);
 
-
-
   }
 }
 
