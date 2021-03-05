@@ -1,26 +1,15 @@
-import {fetchCharacters} from '../services/apiService.js';
 
-
-class CharacterCard extends HTMLElement {
+export class CharacterCard extends HTMLElement {
   constructor () {
     super();
-    this.attachShadow({mode: 'open'});
+    const name = document.createElement('h2');
+    name.innerText = this.getAttribute('name');
+    const shadow = this.attachShadow({mode: 'open'});
 
-  }
+    shadow.appendChild(name);
 
-  async connectedCallback () {
-    const characters = await this.getCharacters();
-    this.renderCharacters(characters);
-  }
 
-  getCharacters () {
-    return fetchCharacters();
-  }
 
-  renderCharacters (characters) {
-    this.shadowRoot.innerHTML = `
-      ${characters.map(char => `<h2>${char.name}</h2>`).join(' ')}
-    `;
   }
 }
 
