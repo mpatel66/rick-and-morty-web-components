@@ -1,3 +1,5 @@
+import {fetchCharacters} from '../services/apiService.js';
+
 
 class CharacterCard extends HTMLElement {
   constructor () {
@@ -7,7 +9,7 @@ class CharacterCard extends HTMLElement {
     card.setAttribute('class','card');
 
     // get name attribute and add the text to the paragraph tag
-    const name = document.createElement('p');
+    const name = document.createElement('h3');
     name.textContent = this.getAttribute('name');
 
     // append p to the card div
@@ -22,12 +24,19 @@ class CharacterCard extends HTMLElement {
         padding: 1rem;
       }
     `;
-
     // create a shadow dom. Add the style and card div to the shadow dom.
     const shadow = this.attachShadow({mode: 'open'});
     shadow.appendChild(style);
     shadow.appendChild(card);
 
+  }
+
+  connectedCallback () {
+    this.getCharacters();
+  }
+
+  getCharacters () {
+    return fetchCharacters();
   }
 }
 
