@@ -16,6 +16,10 @@ export async function fetchCharacters (startId) {
           charactersByIds(ids:${JSON.stringify(idRange)}) {
             id
             name
+            status
+            species
+            type
+            image
           }
         }`
       })
@@ -23,7 +27,6 @@ export async function fetchCharacters (startId) {
   
     if (response.status < 400) {
       const data = await response.json();
-      console.log(data.data.charactersByIds);
       return data.data.charactersByIds;
     } else {
       Promise.reject(response);

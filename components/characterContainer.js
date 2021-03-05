@@ -10,7 +10,6 @@ class CharacterContainer extends HTMLElement {
   static getObservedAttributes () { return ['characters']; }
 
   async connectedCallback () {
-    console.log('connected');
     this.characters = await this.getCharacters(1);
     this.renderCharacters(this.characters);
 
@@ -31,9 +30,10 @@ class CharacterContainer extends HTMLElement {
     try {
       const startId = parseInt(this.characters[this.characters.length -1].id);
       if (startId) {
-        this.characters = await this.getCharacters(startId + 1);
+        const nextCharacters = await this.getCharacters(startId + 1);
+        this.characters = [...this.characters, ...nextCharacters];
         this.renderCharacters(this.characters);
-        window.scroll(0, window.innerHeight);
+        window.scroll(0, window.outerHeight);
       }
       else throw new Error ('Invalid id. Cannot fetch more.');
     } catch (e) {
@@ -42,9 +42,17 @@ class CharacterContainer extends HTMLElement {
   }
 
   renderCharacters (characters) {
+    const characterCards = characters.map(char => `<character-card id="${char.id}"></character-card>`);
+
     this.shadowRoot.innerHTML += `
-      ${characters.map(char => `<character-card name="${char.name}"></character-card>`).join(' ')}
+      ${characterCards.join(' ')}
     `;
+
+    characters.forEach(char => {
+      const charElement = this.shadowRoot.getElementById(char.id);
+      charElement.character = char;
+    });
+
   }
 
 }
