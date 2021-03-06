@@ -12,7 +12,7 @@ export class CharacterCard extends HTMLElement {
           text-align: center;
         }
         h3 {
-          color: red;
+          color: cornflowerblue;
           margin: 0;
           padding: 5px 0px 5px 0px;
         }

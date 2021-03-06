@@ -1,5 +1,20 @@
+* {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+
 character-container {
   display: flex; 
   flex-wrap: wrap;
   justify-content: center;
+}
+
+#loadMoreButton {
+  height: 100px;
+  width: 300px;
+  border: none;
+  margin-bottom: 50px;
+  background-color: cornflowerblue;
+  font-size: large;
 }
