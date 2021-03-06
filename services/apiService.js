@@ -1,4 +1,4 @@
-const BASE_URL = 'https://rickandmortyapi.com/graphql';
+const BASE_URL = 'https://rickandmortyapi.com';
 
 function rangeGenerator (start = 1) {
   return Array.from({length:10}, (_,i) => start + i);
@@ -7,7 +7,7 @@ function rangeGenerator (start = 1) {
 export async function fetchCharacters (startId) {
   const idRange = rangeGenerator(startId);
   try { 
-    const response = await fetch(BASE_URL, {
+    const response = await fetch(`${BASE_URL}/graphql`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

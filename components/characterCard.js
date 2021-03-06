@@ -20,10 +20,12 @@ export class CharacterCard extends HTMLElement {
 
   renderCharacter (character) {
     this.shadowRoot.innerHTML = `
-      <div><h2>${character.name}<h2></div>
-      <div><p>${character.status}<p></div>
-      <div><p>${character.species}<p></div>
-      <div><p>${character.type}<p></div>
+      <div>
+        <h2>${character.name}</h2>
+        <p>${character.status}</p>
+        <p>${character.species}</p>
+        <p>${character.type}</p>
+      </div>
       <img src=${character.image} />
     `;
   }
