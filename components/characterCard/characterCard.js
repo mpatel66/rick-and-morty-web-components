@@ -1,5 +1,4 @@
-import {styles} from './characterCardStyle.js';
-
+import {styles} from './styles.js';
 
 export class CharacterCard extends HTMLElement {
   constructor () {

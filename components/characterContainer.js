@@ -1,5 +1,5 @@
 import { fetchCharacters } from '../services/apiService.js';
-import { CharacterCard } from './characterCard.js';
+import { CharacterCard } from './characterCard/characterCard.js';
 
 class CharacterContainer extends HTMLElement {
   constructor () {
