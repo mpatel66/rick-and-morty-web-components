@@ -10,27 +10,22 @@ class CharacterContainer extends HTMLElement {
   static getObservedAttributes () { return ['characters']; }
 
   async connectedCallback () {
-    this.characters = await this.getCharacters(1);
-    this.renderCharacters(this.characters);
-
-    const loadMoreButton = document.getElementById('loadMoreButton');
-    loadMoreButton.addEventListener('click', async () => await this.getNextCharacters());
-
-  }
-
-  async getCharacters (startId) {
     try {
-      return await fetchCharacters(startId);
+      this.characters = await fetchCharacters(1);
+      this.renderCharacters(this.characters);
+  
+      const loadMoreButton = document.getElementById('loadMoreButton');
+      loadMoreButton.addEventListener('click', async () => await this.getNextCharacters());
     } catch (e) {
       console.log(e);
-    }
+    } 
   }
 
   async getNextCharacters () {
     try {
       const startId = parseInt(this.characters[this.characters.length -1].id);
       if (startId) {
-        const nextCharacters = await this.getCharacters(startId + 1);
+        const nextCharacters = await fetchCharacters(startId + 1);
         this.characters = [...this.characters, ...nextCharacters];
         this.renderCharacters(this.characters);
         window.scrollTo(0, document.body.scrollHeight);
