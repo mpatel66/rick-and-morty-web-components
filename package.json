@@ -4,7 +4,8 @@
   "description": "Fetches characters from the Rick and Morty API and renders using web components",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server ."
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/mpatel66/rick-and-morty-web-components#readme",
   "devDependencies": {
-    "eslint": "^7.21.0"
+    "eslint": "^7.21.0",
+    "http-server": "^0.12.3"
   }
 }
