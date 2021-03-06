@@ -33,7 +33,7 @@ class CharacterContainer extends HTMLElement {
         const nextCharacters = await this.getCharacters(startId + 1);
         this.characters = [...this.characters, ...nextCharacters];
         this.renderCharacters(this.characters);
-        window.scroll(0, window.outerHeight);
+        window.scrollTo(0, document.body.scrollHeight);
       }
       else throw new Error ('Invalid id. Cannot fetch more.');
     } catch (e) {
