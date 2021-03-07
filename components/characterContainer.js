@@ -28,6 +28,7 @@ class CharacterContainer extends HTMLElement {
         const nextCharacters = await fetchCharacters(startId + 1);
         this.characters = [...this.characters, ...nextCharacters];
         this.renderCharacters(this.characters);
+
         window.scrollTo(0, document.body.scrollHeight);
       }
       else throw new Error ('Invalid id. Cannot fetch more.');
@@ -38,16 +39,16 @@ class CharacterContainer extends HTMLElement {
 
   renderCharacters (characters) {
     const characterCards = characters.map(char => `<character-card id="${char.id}"></character-card>`);
-
-    this.shadowRoot.innerHTML += `
+    
+    this.shadowRoot.innerHTML = `
       ${characterCards.join(' ')}
     `;
-
+    
     characters.forEach(char => {
       const charElement = this.shadowRoot.getElementById(char.id);
       charElement.character = char;
     });
-
+    
   }
 
 }
