@@ -13,16 +13,28 @@ class CharacterContainer extends HTMLElement {
     try {
       this.characters = await fetchCharacters(1);
       this.renderCharacters(this.characters);
-  
-      const loadMoreButton = document.getElementById('loadMoreButton');
-      loadMoreButton.addEventListener('click', async () => await this.getNextCharacters());
+      this.createButton();
     } catch (e) {
       console.log(e);
     } 
   }
 
+  createButton () {
+    const loadMoreButton = document.createElement('button');
+    loadMoreButton.setAttribute('id','load-more-button');
+    loadMoreButton.innerText = 'Load More';
+    loadMoreButton.addEventListener('click', async () => await this.getNextCharacters());
+    document.body.appendChild(loadMoreButton);
+  }
+
+  toggleButton () {
+    const loadMoreButton = document.getElementById('load-more-button');
+    loadMoreButton.toggleAttribute('disabled');
+  }
+
   async getNextCharacters () {
     try {
+      this.toggleButton();
       const startId = parseInt(this.characters[this.characters.length -1].id);
       if (startId) {
         const nextCharacters = await fetchCharacters(startId + 1);
@@ -30,6 +42,7 @@ class CharacterContainer extends HTMLElement {
         this.renderCharacters(this.characters);
 
         window.scrollTo(0, document.body.scrollHeight);
+        this.toggleButton();
       }
       else throw new Error ('Invalid id. Cannot fetch more.');
     } catch (e) {
