@@ -34,9 +34,9 @@ class CharacterContainer extends HTMLElement {
 
   async getNextCharacters () {
     try {
-      this.toggleButton();
       const startId = parseInt(this.characters[this.characters.length -1].id);
       if (startId) {
+        this.toggleButton();
         const nextCharacters = await fetchCharacters(startId + 1);
         this.characters = [...this.characters, ...nextCharacters];
         this.renderCharacters(this.characters);
