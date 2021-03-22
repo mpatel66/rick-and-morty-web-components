@@ -6,8 +6,7 @@ I've used web components, vanilla JS and the [Rick & Morty API](https://rickandm
 
 
 
-You can intially see the first 10 characters from the show, and see more by clicking *Load More*.
-
+You can intially see the first 20 characters from the show, and see more by clicking *Load More*. You can also filter characters by name.
 
 
 ## Getting started
