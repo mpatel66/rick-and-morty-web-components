@@ -1,9 +1,11 @@
-import { fetchCharacters } from '../services/apiService.js';
+import { fetchCharactersByPage } from '../services/apiService.js';
 import { CharacterCard } from './characterCard/characterCard.js';
 
 class CharacterContainer extends HTMLElement {
   constructor () {
     super();
+    this.page = 1;
+    this.characterName = '';
     this.attachShadow({mode: 'open'});
   }
 
@@ -11,9 +13,14 @@ class CharacterContainer extends HTMLElement {
 
   async connectedCallback () {
     try {
-      this.characters = await fetchCharacters(1);
+      this.characters = await fetchCharactersByPage(this.page);
       this.renderCharacters(this.characters);
       this.createButton();
+      
+      const submitButton = document.getElementById('filter-character');
+      submitButton.addEventListener('click', async () => await this.filterCharacters()
+      );
+
     } catch (e) {
       console.log(e);
     } 
@@ -23,7 +30,7 @@ class CharacterContainer extends HTMLElement {
     const loadMoreButton = document.createElement('button');
     loadMoreButton.setAttribute('id','load-more-button');
     loadMoreButton.innerText = 'Load More';
-    loadMoreButton.addEventListener('click', async () => await this.getNextCharacters());
+    loadMoreButton.addEventListener('click', async () => await this.getNextPage());
     document.body.appendChild(loadMoreButton);
   }
 
@@ -32,19 +39,25 @@ class CharacterContainer extends HTMLElement {
     loadMoreButton.toggleAttribute('disabled');
   }
 
-  async getNextCharacters () {
+  async filterCharacters () {
+    this.characterName = document.querySelector('input').value;
+    this.page = 1; // reset page number
+    this.characters = await fetchCharactersByPage(this.page, this.characterName);
+    this.renderCharacters(this.characters);
+  }
+
+  async getNextPage () {
     try {
-      const startId = parseInt(this.characters[this.characters.length -1].id);
-      if (startId) {
-        this.toggleButton();
-        const nextCharacters = await fetchCharacters(startId + 1);
+      this.toggleButton();
+      this.page +=1;
+      const nextCharacters = await fetchCharactersByPage(this.page, this.characterName);
+      if (nextCharacters) {
         this.characters = [...this.characters, ...nextCharacters];
         this.renderCharacters(this.characters);
-
         window.scrollTo(0, document.body.scrollHeight);
-        this.toggleButton();
       }
-      else throw new Error ('Invalid id. Cannot fetch more.');
+      this.toggleButton();
+      
     } catch (e) {
       console.log(e);
     }

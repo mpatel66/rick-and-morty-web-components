@@ -1,11 +1,6 @@
 const BASE_URL = 'https://rickandmortyapi.com';
 
-function rangeGenerator (start = 1) {
-  return Array.from({length:10}, (_,i) => start + i);
-}
-
-export async function fetchCharacters (startId) {
-  const idRange = rangeGenerator(startId);
+export async function fetchCharactersByPage (page, characterName='') {
   try { 
     const response = await fetch(`${BASE_URL}/graphql`, {
       method: 'POST',
@@ -13,21 +8,28 @@ export async function fetchCharacters (startId) {
       body: JSON.stringify({
         query: `
         query {
-          charactersByIds(ids:${JSON.stringify(idRange)}) {
-            id
-            name
-            status
-            species
-            type
-            image
+          characters(page:${page}, filter: {name: "${characterName}"}) {
+            info {
+              count
+              pages
+              next
+            }
+            results {
+              id
+              name
+              status
+              species
+              type
+              image
+            }
           }
         }`
       })
     });
   
     if (response.status < 400) {
-      const data = await response.json();
-      return data.data.charactersByIds;
+      const result = await response.json();
+      if (result.data.characters) return result.data.characters.results;
     } else {
       Promise.reject(response);
     }

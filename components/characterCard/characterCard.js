@@ -12,8 +12,6 @@ export class CharacterCard extends HTMLElement {
     `;
   }
 
-  static getObservedAttributes () { return ['character']; }
-
   set character (char) {
     this._character = char;
     this.renderCharacter(this._character);
